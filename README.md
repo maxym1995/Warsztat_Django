@@ -1,4 +1,4 @@
-# Warsztat_Django
+# Django_app
 Booking rooms app
 Required libraries:
 	-django
