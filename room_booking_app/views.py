@@ -27,7 +27,7 @@ def new_room(request):
         error_message=""
         for r in rooms:
             rooms_names.append(r.name)
-        if name is not "" and capacity is not "":
+        if name != "" and capacity != "":
             if name in rooms_names:
                 error_message = "This name has been already used."
                 return render(request, "new_room_template.html", context={"error_message": error_message})
@@ -41,3 +41,30 @@ def new_room(request):
         else:
             error_message = "Name and capacity have to be filled in."
             return render(request, "new_room_template.html", context={"error_message": error_message})
+
+#display list of all rooms
+def all_rooms(request):
+    if request.method == "GET":
+        rooms = Room.objects.all()
+        if len(rooms) == 0:
+            return HttpResponse("No rooms avaliable")
+        else:
+            return render(request, "all_rooms.html", context={"rooms": rooms})
+
+#display room details
+def room_details(request,room_id):
+    if request.method == "GET":
+        room = Room.objects.get(id=room_id)
+        r_name = room.name
+        r_capacity = room.capacity
+        r_proj = room.projector_aval
+        return render(request, "room_details.html", context={"r_name": r_name, "r_capacity":r_capacity, "r_proj":r_proj})
+
+def room_modify(request,room_id):
+    pass
+
+def room_delete(request,room_id):
+    pass
+
+def room_reserve(request,room_id):
+    pass

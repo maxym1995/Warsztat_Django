@@ -6,8 +6,9 @@ class Room(models.Model):
     name = models.CharField(max_length=255)
     capacity = models.PositiveIntegerField()
     projector_aval = models.BooleanField(default=False)
+    reserved = models.BooleanField(default=False)
 
-#adding rooms (into shell:
+#adding rooms (into shell):
 # Room.objects.create(name='Mercury', capacity=4)
 # Room.objects.create(name='Mars', capacity=4)
 # Room.objects.create(name='Venus', capacity=6)

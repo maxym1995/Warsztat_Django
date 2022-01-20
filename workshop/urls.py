@@ -22,4 +22,9 @@ urlpatterns = [
     path('server/', vw.server ),
     path('base/', vw.base ),
     path('room/new/', vw.new_room ),
+    path('all-rooms/', vw.all_rooms),
+    path('room-details/<int:room_id>', vw.room_details),
+    path('room-modify/<int:room_id>', vw.room_modify),
+    path('room-delete/<int:room_id>', vw.room_delete),
+    path('room-reserve/<int:room_id>', vw.room_reserve),
 ]
