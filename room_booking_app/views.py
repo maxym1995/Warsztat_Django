@@ -45,7 +45,7 @@ def new_room(request):
 #display list of all rooms
 def all_rooms(request):
     if request.method == "GET":
-        rooms = Room.objects.all()
+        rooms = Room.objects.all().order_by("capacity")
         if len(rooms) == 0:
             return HttpResponse("No rooms avaliable")
         else:
@@ -61,10 +61,73 @@ def room_details(request,room_id):
         return render(request, "room_details.html", context={"r_name": r_name, "r_capacity":r_capacity, "r_proj":r_proj})
 
 def room_modify(request,room_id):
-    pass
+    rooms = Room.objects.all()
+    rooms_names = []
+    for r in rooms:
+        rooms_names.append(r.name)
+    room = Room.objects.get(id=room_id)
+    room_name = room.name
+    rooms_names.pop(rooms_names.index(room_name))
+    if request.method == "GET":
+        room = Room.objects.get(id=room_id)
+        return render(request, "modify_room.html",context={"room":room})
+    if request.method == "POST":
+        name = request.POST.get("room-name")
+        capacity = request.POST.get("capacity")
+        projector = None
+        if request.POST.get("projector") == "on":
+            projector = True
+        else:
+            projector = False
+        error_message = ""
+        if name != "" and int(capacity) >0 :
+            if name in rooms_names:
+                error_message = "This name has been already used."
+                return render(request, "modify_room.html", context={"room":room, "error_message": error_message})
+            else:
+                room = Room.objects.get(id=room_id)
+                room.name = name
+                room.capacity = capacity
+                room.projector_aval = projector
+                room.save()
+                return HttpResponseRedirect("/all-rooms/")
+        else:
+            error_message = "Name and capacity have to be filled in."
+            return render(request, "modify_room.html", context={"error_message": error_message})
+
+
+
+
+# class edit_movie(View):
+#     def get(self, request, movie_id):
+#         movie_id = movie_id
+#         movie = Movie.objects.get(id=movie_id)
+#         persons = Person.objects.all()
+#         director = movie.director
+#         genres = movie.genre.all()
+#         genre = Genre.objects.all()
+#
+#         return render(request, "edit_movie.html", context={"movie": movie, "movie_id":movie_id, "persons":persons, "genre":genre, "genres":genres})
+#
+#     def post(self, request, person_id):
+#         first_name = request.POST.get("first_name")
+#         last_name = request.POST.get("last_name")
+#         person_id = request.POST.get("person_id")
+#         person_id = int(person_id)
+#         p = Person.objects.get(id=person_id)
+#         p.first_name = first_name
+#         p.last_name = last_name
+#         p.save()
+#         # return HttpResponse('Dodano osobe'), HttpResponseRedirect("/persons/") chcialbym wyswietlic info a potem przekierowac za 5 sekund
+#         return HttpResponseRedirect("/persons/")
+
+
+
 
 def room_delete(request,room_id):
-    pass
+        room = Room.objects.get(id=room_id)
+        room.delete()
+        return HttpResponseRedirect("/all-rooms/")
 
 def room_reserve(request,room_id):
     pass

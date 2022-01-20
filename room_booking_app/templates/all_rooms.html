@@ -28,8 +28,8 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="http://127.0.0.1:8000/room-details/{{room.id}}">List of all rooms<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="/">Add room</a>
+      <a class="nav-item nav-link active" href="http://127.0.0.1:8000/all-rooms/">List of all rooms<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="http://127.0.0.1:8000/room/new/">Add room</a>
     </div>
   </div>
 </nav>
@@ -43,10 +43,10 @@
   <li>
 
     <a style="font-size:21px;" href="http://127.0.0.1:8000/room-details/{{room.id}}">{{ room.name}}</a> <br>
-    <a> Capacity: {{room.capacity}} Projector avaliable: {{room.projector_aval}} </a><br>
-    <a href="http://127.0.0.1:8000/room-modify/{{room.id}}"> Modify</a>
-    <a href="http://127.0.0.1:8000/room-delete/{{room.id}}"> Delete</a>
-    <a href="http://127.0.0.1:8000/room-reserve/{{room.id}}"> Reserve</a>
+    <a> Capacity: {{room.capacity}} | Projector avaliable: {{room.projector_aval}} | Reserved: {{room.reserved}} |</a><br>
+    <a style ="color: blueviolet;" href="http://127.0.0.1:8000/room-modify/{{room.id}}"> Modify</a>
+    <a style ="color: darkred;"href="http://127.0.0.1:8000/room-delete/{{room.id}}"> Delete</a>
+    <a style ="color:green" href="http://127.0.0.1:8000/room-reserve/{{room.id}}"> Reserve</a>
 
   </li>
   {% endfor %}

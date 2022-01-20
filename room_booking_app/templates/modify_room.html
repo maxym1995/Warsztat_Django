@@ -28,7 +28,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="http://127.0.0.1:8000/all-rooms/">List of all rooms<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link active" href="/">List of all rooms<span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" href="http://127.0.0.1:8000/room/new/">Add room</a>
     </div>
   </div>
@@ -41,20 +41,25 @@
     <span style='color: red'>{{error_message}}</span>
     <form action="" method="POST">
       {% csrf_token %}
+
       <div class="form-group">
         <label for="room-name">Name</label>
-        <input type="text" class="form-control" id="room-name" aria-describedby="room-name-help" placeholder="Room's name" name="room-name", required>
+        <input type="text" class="form-control" id="room-name" aria-describedby="room-name-help" placeholder="Room's name" name="room-name", value ="{{room.name}}",required>
         <small id="room-name-help" class="form-text text-muted">Name has to be unique</small>
       </div>
+
+
       <div class="form-group">
         <label for="capacity">Room capacity</label>
-        <input type="number" step="1" max="100" class="form-control" id="capacity" placeholder="Seats" name="capacity", required >
+        <input type="number" step="1" max="100" class="form-control" id="capacity" placeholder="Seats" name="capacity", value="{{room.capacity}}", required >
+        <small id="capacity-help" class="form-text text-muted">Capacity (1-100)</small>
       </div>
+
       <div class="form-check">
-        <input type="checkbox" class="form-check-input" name="projector" id="projector">
+        <input type="checkbox" class="form-check-input" name="projector" id="projector", value="{{room.projector_aval}}", >
         <label class="form-check-label" for="projector">Projector avaliable</label>
       </div>
-      <button type="submit" class="btn btn-primary">Add room</button>
+      <button type="submit" class="btn btn-primary">Modify room</button>
     </form>
   </div>
 </div>
