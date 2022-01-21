@@ -54,7 +54,10 @@
       </div>
 
       <div class="form-check">
-        <input type="checkbox" class="form-check-input" name="projector" id="projector" {% if room.project_aval %} checked {% endif %}>
+        <select name="projector" id="projector" >
+          <option value="True">True</option>
+          <option value="False">False</option>
+        </select>
 
         <label class="form-check-label" for="projector">Projector avaliable</label>
       </div>

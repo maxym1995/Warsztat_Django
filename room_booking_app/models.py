@@ -18,3 +18,12 @@ class Room(models.Model):
 # Room.objects.create(name='Saturn', capacity=20,projector_aval=True)
 # Room.objects.create(name='Jupiter', capacity=40,projector_aval=True)
 
+
+
+class Reservation(models.Model):
+    date = models.DateField()
+    room_id = models.ForeignKey(Room, on_delete=models.CASCADE)
+    comment = models.TextField(null=True)
+
+    class Meta:
+        unique_together = ('room_id', 'date')
