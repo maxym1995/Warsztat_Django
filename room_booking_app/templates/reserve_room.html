@@ -22,14 +22,14 @@
 <body>
 <!-- Nav -->
 <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Booking rooms system</a>
+  <a class="navbar-brand" href="/">Booking rooms system</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="/">List of all rooms<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="http://127.0.0.1:8000/room/new/">Add room</a>
+      <a class="nav-item nav-link active" href="/all-rooms/">List of all rooms<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/room/new/">Add room</a>
     </div>
   </div>
 </nav>
@@ -42,31 +42,33 @@
     <form action="" method="POST">{% csrf_token %}
 
       <div class="form-group">
-        <label for="room-name">Name</label>
-        <input type="text" class="form-control" id="room-name" aria-describedby="room-name-help" placeholder="Room's name" name="room-name", value ="{{room.name}}",required>
-        <small id="room-name-help" class="form-text text-muted">Name has to be unique</small>
+        <h3>Room name : {{room.name}}</h3>
+        <label for="room-name">Comment</label>
+        <input type="text" class="form-control" id="comment" aria-describedby="comment-help" placeholder="comment" name="comment",required>
+        <small id="comment-help" class="form-text text-muted">Type your comment</small>
       </div>
 
       <div class="form-group">
-        <label for="capacity">Room capacity</label>
-        <input type="number" step="1" max="100" class="form-control" id="capacity" placeholder="Seats" name="capacity", value="{{room.capacity}}", required >
-        <small id="capacity-help" class="form-text text-muted">Capacity (1-100)</small>
+        <label for="date">Date</label><br>
+        <input type="date" min = "{{todays}}" max="2029-12-31" id="date"  name="date", required >
       </div>
 
-      <div class="form-check">
-        <select name="projector" id="projector" >
-          <option value="True">True</option>
-          <option value="False">False</option>
-        </select>
-
-        <label class="form-check-label" for="projector">Projector avaliable</label>
-      </div>
-
-      <button type="submit" class="btn btn-primary">Modify room</button>
+      <button type="submit" class="btn btn-primary">Book</button>
     </form>
   </div>
 </div>
 <!-- Form -->
+{% if error %}
+<!-- Form error -->
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{error}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<!-- Form error -->
+{% endif %}
+
 
 <!-- Footer -->
 <footer class="footer">

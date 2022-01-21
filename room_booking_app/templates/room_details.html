@@ -22,31 +22,50 @@
 <body>
 <!-- Nav -->
 <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Booking rooms system</a>
+  <a class="navbar-brand" href="/">Booking rooms system</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="http://127.0.0.1:8000/all-rooms/">List of all rooms<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="http://127.0.0.1:8000/room/new/">Add room</a>
+      <a class="nav-item nav-link active" href="/all-rooms/">List of all rooms<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/room/new/">Add room</a>
     </div>
   </div>
 </nav>
 <!-- Nav -->
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="/room-modify/{{room.id}}">Modify room<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link active" href="/room-delete/{{room.id}}">Delete room <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/room-reserve/{{room.id}}">Make reservation</a>
+    </div>
+  </div>
+</nav>
 
 
 <div class="card">
   <a>
 <ul>
-  <li>Room name: {{r_name}}</li>
-  <li>Room capacity: {{r_capacity}}</li>
-  <li>Projector: {{r_proj}}</li>
+  <li>Room name: {{room.name}}</li>
+  <li>Room capacity: {{room.capacity}}</li>
+  <li>Projector: {{room.projector_aval}}</li>
 
 </ul>
     </a>
 </div>
+<div>
+  <a>
+      Reservations:
+    <ol>
+      {% for r in reservation %}
+      <li>Date: {{r.date}}, comment: {{r.comment}} </li>
+      {% endfor %}
+    </ol>
 
+  </a>
+</div>
 <footer class="footer">
       <div class="container">
         <span class="text-muted">MG</span>
