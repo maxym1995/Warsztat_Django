@@ -100,7 +100,8 @@ def room_reserve(request,room_id):
     if request.method == "GET":
         room = Room.objects.get(id=room_id)
         todays = str(datetime.date.today())
-        return render(request, "reserve_room.html",context={"room":room, "todays":todays})
+        reservation = Reservation.objects.all().filter(room_id_id=room_id).order_by("date")
+        return render(request, "reserve_room.html",context={"room":room, "todays":todays, "reservation":reservation})
     if request.method == "POST":
         room = Room.objects.get(id=room_id)
         today = str(datetime.datetime.today().strftime("%Y-%m-%d"))

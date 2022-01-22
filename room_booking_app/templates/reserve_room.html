@@ -69,6 +69,18 @@
 <!-- Form error -->
 {% endif %}
 
+<div>
+  <a>
+      Reservations:
+    <ol>
+      {% for r in reservation %}
+      <li>Date: {{r.date}}, comment: {{r.comment}} </li>
+      {% endfor %}
+    </ol>
+
+  </a>
+</div>
+
 
 <!-- Footer -->
 <footer class="footer">
