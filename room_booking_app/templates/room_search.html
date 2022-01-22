@@ -19,7 +19,7 @@
     background-color: #f5f5f5;
   }
 </style>
-<body>
+<body style="overflow: scroll">
 <!-- Nav -->
 <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
   <a class="navbar-brand" href="/">Booking rooms system</a>
@@ -37,54 +37,79 @@
 <!-- Nav -->
 
 <!-- Form -->
-<div class="card">
+<table class="table">
+  <thead>
+    <tr class="d-flex">
+      <th scope="col" class="col-1">ID</th>
+      <th scope="col" class="col-2">Name</th>
+      <th scope="col" class="col-1">Capacity</th>
+      <th scope="col" class="col-2">Avaliability</th>
+      <th scope="col" class="col-5" colspan="4">Projector</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for room in rooms %}
+    <tr class="d-flex">
+      <th scope="row" class="col-1">{{ room.id }}</th>
+      <td class="col-2">
+        <a href="/room-details/{{ room.id }}">{{ room.name }}</a>
+      </td>
+      <td class="col-1">{{ room.capacity }}</td>
+      {% if room.reserved %}
+        <td class="col-2" style="color:red;">Reserved</td>
+      {% else %}
+        <td class="col-2" style="color:green;">Avaliable</td>
+      {% endif %}
+      {% if room.projector_aval %}
+        <td class="col-2" style="color:green;">&#9745;</td>
+      {% else %}
+        <td class="col-2" style="color:red;">&#9746;</td>
+      {% endif %}
+      <td class="col-1">
+        <a href="/room-modify/{{ room.id }}">Edit</a>
+      </td>
+      <td class="col-1">
+        <a href="/room-delete/{{ room.id }}">Delete</a>
+      </td>
+      <td class="col-1">
+        <a href="/room-reserve/{{ room.id }}">Book</a>
+      </td>
+    </tr>
+    {% empty %}
+      <tr><td colspan="6">No rooms avaliable</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br>
+
+<h3>Search</h3>
+<div class="card" style="overflow-y: scroll">
   <div class="card-body">
-    <span style='color: red'>{{error_message}}</span>
-    <form action="" method="POST">{% csrf_token %}
-
+    <form action="/room-search/" method="GET">
+      {% csrf_token %}
       <div class="form-group">
-        <h3>Room name : {{room.name}}</h3>
-        <label for="room-name">Comment</label>
-        <input type="text" class="form-control" id="comment" aria-describedby="comment-help" placeholder="comment" name="comment",required>
-        <small id="comment-help" class="form-text text-muted">Type your comment</small>
+        <label for="room-name">Name</label>
+        <input type="text" class="form-control" id="room-name" aria-describedby="room-name-help" placeholder="Room's name" name="room-name">
+      </div>
+      <div class="form-group">
+        <label for="capacity">Min capacity</label>
+        <input type="number" step="1" class="form-control" id="capacity"  name="capacity">
       </div>
 
-      <div class="form-group">
-        <label for="date">Date</label><br>
-        <input type="date" min = "{{todays}}" max="2029-12-31" id="date"  name="date", required >
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="projector" id="projector">
+        <label class="form-check-label" for="projector">Projector</label>
       </div>
+      <br><br><br><br><br>
+      <button type="submit" class="btn btn-primary">Search</button>
+      <br><br><br><br><br>
 
-      <button type="submit" class="btn btn-primary">Book</button>
+
     </form>
   </div>
 </div>
-<!-- Form -->
-{% if error %}
-<!-- Form error -->
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  {{error}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<!-- Form error -->
-{% endif %}
-
-<div>
-  <a>
-      Reservations:
-    <ol>
-      {% for r in reservation %}
-      <li>Date: {{r.date}}, comment: {{r.comment}} </li>
-      {% endfor %}
-    </ol>
-
-  </a>
-</div>
-
-
 <!-- Footer -->
-<footer class="footer">
+<footer class="footer" >
       <div class="container">
         <span class="text-muted">MG</span>
       </div>

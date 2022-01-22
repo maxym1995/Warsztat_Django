@@ -38,14 +38,6 @@ def new_room(request):
             error_message = "Name and capacity have to be filled in."
             return render(request, "new_room_template.html", context={"error_message": error_message})
 
-# #display list of all rooms
-# def all_rooms(request):
-#     if request.method == "GET":
-#         rooms = Room.objects.all().order_by("capacity")
-#         if len(rooms) == 0:
-#             return HttpResponse("No rooms avaliable")
-#         else:
-#             return render(request, "all_rooms.html", context={"rooms": rooms})
 
 #display room details
 def room_details(request,room_id):
@@ -126,3 +118,27 @@ def all_rooms(request):
             return HttpResponse("No rooms avaliable")
         else:
             return render(request, "all_roms_v2.html", context={"rooms": rooms})
+
+# search for room with criterias
+def room_search(request):
+    if request.method == "GET":
+        name = request.GET.get("room-name")
+        capacity = request.GET.get("capacity")
+        if capacity :
+            capacity = int(capacity)
+        else:
+            capacity = 0
+        projector = request.GET.get("projector") == "on"
+        rooms = Room.objects.all().order_by("capacity")
+        if projector:
+            rooms = rooms.filter(projector_aval=projector)
+        if capacity:
+            rooms = rooms.filter(capacity__gte=capacity)
+        if name:
+            rooms = rooms.filter(name__contains=name)
+
+        for room in rooms:
+            reservation_dates = [reservation.date for reservation in room.reservation_set.all()]
+            room.reserved = datetime.date.today() in reservation_dates
+
+        return render(request, "room_search.html", context={"rooms": rooms})

@@ -25,4 +25,5 @@ urlpatterns = [
     path('room-modify/<int:room_id>', vw.room_modify),
     path('room-delete/<int:room_id>', vw.room_delete),
     path('room-reserve/<int:room_id>', vw.room_reserve),
+    path('room-search/', vw.room_search),
 ]
