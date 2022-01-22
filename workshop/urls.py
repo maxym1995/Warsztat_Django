@@ -19,8 +19,6 @@ from room_booking_app import views as vw
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('server/', vw.server ),
-    path('base/', vw.base ),
     path('room/new/', vw.new_room ),
     path('all-rooms/', vw.all_rooms),
     path('room-details/<int:room_id>', vw.room_details),

@@ -5,12 +5,7 @@ import random
 from room_booking_app.models import *
 import datetime
 
-# this is to check if template was loaded correctly on server
-def server(request):
-    return render(request, "server.html")
-#base template
-def base(request):
-    return render(request, "base_template.html")
+
 
 # add new room
 def new_room(request):
@@ -43,14 +38,14 @@ def new_room(request):
             error_message = "Name and capacity have to be filled in."
             return render(request, "new_room_template.html", context={"error_message": error_message})
 
-#display list of all rooms
-def all_rooms(request):
-    if request.method == "GET":
-        rooms = Room.objects.all().order_by("capacity")
-        if len(rooms) == 0:
-            return HttpResponse("No rooms avaliable")
-        else:
-            return render(request, "all_rooms.html", context={"rooms": rooms})
+# #display list of all rooms
+# def all_rooms(request):
+#     if request.method == "GET":
+#         rooms = Room.objects.all().order_by("capacity")
+#         if len(rooms) == 0:
+#             return HttpResponse("No rooms avaliable")
+#         else:
+#             return render(request, "all_rooms.html", context={"rooms": rooms})
 
 #display room details
 def room_details(request,room_id):
@@ -108,7 +103,7 @@ def room_reserve(request,room_id):
         return render(request, "reserve_room.html",context={"room":room, "todays":todays})
     if request.method == "POST":
         room = Room.objects.get(id=room_id)
-        today = str(datetime.datetime.today())
+        today = str(datetime.datetime.today().strftime("%Y-%m-%d"))
         comment = request.POST.get("comment")
         date = request.POST.get("date")
         if Reservation.objects.filter(room_id=room_id, date=date):
@@ -119,4 +114,14 @@ def room_reserve(request,room_id):
         return HttpResponseRedirect("/all-rooms/")
 
 
-
+#display list of all rooms (v2)
+def all_rooms(request):
+    if request.method == "GET":
+        rooms = Room.objects.all().order_by("capacity")
+        for room in rooms:
+            reservation_dates = [reservation.date for reservation in room.reservation_set.all()]
+            room.reserved = datetime.date.today() in reservation_dates
+        if len(rooms) == 0:
+            return HttpResponse("No rooms avaliable")
+        else:
+            return render(request, "all_roms_v2.html", context={"rooms": rooms})
