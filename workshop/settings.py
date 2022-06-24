@@ -78,8 +78,8 @@ DATABASES = {
     'default': {
         'NAME': 'w_rooms',
         'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': '127.0.0.1'
     }
 }
